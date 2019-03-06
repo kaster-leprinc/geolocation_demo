@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 
 void main() => runApp(MyApp());
 
@@ -42,7 +43,6 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             Text(
               '$_location',
-              style: Theme.of(context).textTheme.display1,
             ),
           ],
         ),
@@ -50,12 +50,16 @@ class _MyHomePageState extends State<MyHomePage> {
       floatingActionButton: FloatingActionButton(
         onPressed: _getLocation,
         tooltip: 'Increment',
-        child: Icon(Icons.add),
+        child: Icon(Icons.map),
       ),
     );
   }
 
-  void _getLocation() {
-    
+  Future _getLocation() async {
+    print("llamamos a getlocation");
+    Position position = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    setState(() {
+     _location =position.toString(); 
+    });
   }
 }
